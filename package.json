@@ -1,0 +1,14 @@
+{
+  "name": "oplog",
+  "version": "0.1.0",
+  "dependencies": {
+    "monk": "0.6.0",
+    "bson": "0.0.6",
+    "wildcard": "0.1.2",
+    "debug": "*"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "expect.js": "*"
+  }
+}
