@@ -7,7 +7,7 @@
 
 ```js
 var oplog = require('oplog')('localhost:27017/local');
-oplog.query({ i: /u|r/ });
+oplog.query({ i: /u|d/ });
 oplog.filter()
   .ns('*.users')
   .on('update', function(){ });
