@@ -75,8 +75,8 @@ oplog.tail();
 
 ## Running tests
 
-If you're running a replica set, make sure to export `OPLOG_TEST_RS=1`
-before running:
+Make sure to be running a replica set (which can be single-member)
+before executing
 
 ```
 $ make test

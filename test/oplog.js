@@ -15,7 +15,6 @@ var ts;
 function create(){
   var log = oplog(local);
   if (ts) log.query({ ts: { $gt: ts } });
-  if (process.env.OPLOG_TEST_RS) log.type('rs');
   log.on('op', function(o){
     // we ensure no tailers from a test get operations
     // that correspond to the test before it

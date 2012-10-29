@@ -45,12 +45,6 @@ function Oplog(db){
   var now = Date.now() / 1000;
   qry.ts = { $gte: new Timestamp(0, now) };
   this.qry = qry;
-
-  if (this.db.driver.db.serverConfig.servers) {
-    this.type('rs');
-  } else {
-    this.type('local');
-  }
 }
 
 /**
@@ -58,23 +52,6 @@ function Oplog(db){
  */
 
 Oplog.prototype.__proto__ = EventEmitter.prototype;
-
-/**
- * Sets tailing type.
- *
- * @param {String} type: `rs` or `local`
- * @return {Oplog} for chaining
- * @api public
- */
-
-Oplog.prototype.type = function(t){
-  debug('setting type to "%s"', t);
-  this._type = t;
-  this.col = 'rs' == t
-    ? 'oplog.rs'
-    : 'oplog.$main';
-  return this;
-};
 
 /**
  * Sets the query.
@@ -110,9 +87,9 @@ Oplog.prototype.filter = function(){
  */
 
 Oplog.prototype.tail = function(){
-  debug('tailing oplog %s', this.col);
+  debug('tailing oplog');
   this.readyState = 'open';
-  var col = this.db.get(this.col);
+  var col = this.db.get('oplog.rs');
   var opt = { tailable: true, awaitData: true };
   var cur = col
   .find(this.qry, opt)
