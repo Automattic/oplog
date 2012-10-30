@@ -87,10 +87,10 @@ Oplog.prototype.filter = function(){
  */
 
 Oplog.prototype.tail = function(){
-  debug('tailing oplog');
+  debug('tailing oplog with %j', this.qry);
   this.readyState = 'open';
   var col = this.db.get('oplog.rs');
-  var opt = { tailable: true, awaitData: true };
+  var opt = { tailable: true, awaitdata: true, timeout: false };
   var cur = col
   .find(this.qry, opt)
   .each(this.op.bind(this))
