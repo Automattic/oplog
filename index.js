@@ -112,6 +112,7 @@ Oplog.prototype.tail = function(){
  */
 
 Oplog.prototype.op = function(doc){
+  this.query({ ts: { $gt: doc.ts } });
   this.emit('op', doc);
   this.emit(events[doc.op], doc);
 };
