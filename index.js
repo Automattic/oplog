@@ -125,8 +125,17 @@ Oplog.prototype.op = function(doc){
  */
 
 Oplog.prototype.err = function(err){
-  this.readyState = 'error';
-  this.emit('error', err);
+  if (!err || !err.stack) {
+    // handle weird -native errors
+    throw new Error('Unknown error:' + err);
+  } else if (/cursor timed out/.test(err.message)) {
+    debug('cursor timeout - re-tailing', err.stack);
+    this.tail();
+  } else {
+    debug('unknown error occurred', err.stack);
+    this.readyState = 'error';
+    this.emit('error', err);
+  }
 };
 
 /**
