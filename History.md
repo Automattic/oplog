@@ -1,4 +1,10 @@
 
+0.2.2 / 2012-11-20
+==================
+
+  * index: improve error handling
+  * index: re-set the `query` to the last operation `ts`
+
 0.2.1 / 2012-10-30
 ==================
 
