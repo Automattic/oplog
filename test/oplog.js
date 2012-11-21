@@ -38,6 +38,21 @@ describe('oplog', function(){
     woot.insert({ a: 'b' });
   });
 
+  it.only('should emit an op event for update', function(done){
+    var log = create();
+    woot.insert({ a: 'b' }, function(err, doc){
+      if (err) return done(err);
+      woot.update({ _id: doc._id }, {
+        $set: { c: 'd' },
+        $push: { e: 'f' }
+      });
+      log.on('op', function(d){
+        console.log(d.o);
+      });
+      log.tail();
+    });
+  });
+
   it('should emit named events', function($done){
     var log = create();
     var total = 3;

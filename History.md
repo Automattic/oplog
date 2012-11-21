@@ -1,4 +1,11 @@
 
+0.2.3 / 2012-11-21
+==================
+
+  * events: export events map
+  * index: use `events` file
+  * filter: fix event emitting
+
 0.2.2 / 2012-11-20
 ==================
 
