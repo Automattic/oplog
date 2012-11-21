@@ -7,6 +7,7 @@ var monk = require('monk')
   , Filter = require('./filter')
   , Timestamp = require('bson').Timestamp
   , EventEmitter = require('events').EventEmitter
+  , events = require('./events')
   , debug = require('debug')('oplog');
 
 /**
@@ -14,16 +15,6 @@ var monk = require('monk')
  */
 
 module.exports = Oplog;
-
-/**
- * Map between op ids and events.
- */
-
-var events = {
-  i: 'insert',
-  u: 'update',
-  d: 'remove'
-};
 
 /**
  * Oplog constructor.
