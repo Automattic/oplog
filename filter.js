@@ -4,6 +4,7 @@
  */
 
 var wildcard = require('wildcard')
+  , events = require('./events')
   , EventEmitter = require('events').EventEmitter;
 
 /**
@@ -40,7 +41,8 @@ Filter.prototype.__proto__ = EventEmitter.prototype;
 Filter.prototype.op = function(doc){
   if (!this._ns || this._ns.match(doc.ns)) {
     // we emit the same events as oplog
-    this.oplog.op.call(this, doc);
+    this.emit('op', doc);
+    this.emit(events[doc.op], doc);
   }
 };
 
