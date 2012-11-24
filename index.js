@@ -73,8 +73,6 @@ Oplog.prototype.filter = function(){
  */
 
 Oplog.prototype.tail = function(){
-  debug('tailing oplog with %j', this.qry);
-
   // set ready state
   this.readyState = 'open';
 
@@ -85,6 +83,8 @@ Oplog.prototype.tail = function(){
     qry.ts = { $gte: new Timestamp(0, now) };
     this.qry = qry;
   }
+
+  debug('tailing oplog with %j', this.qry);
 
   // set query options
   var col = this.db.get('oplog.rs');
