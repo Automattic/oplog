@@ -38,17 +38,32 @@ describe('oplog', function(){
     woot.insert({ a: 'b' });
   });
 
-  it.only('should emit an op event for update', function(done){
+  it('should emit an op event for update', function(done){
     var log = create();
-    woot.insert({ a: 'b' }, function(err, doc){
+    woot.insert({ a: 'b', e: [] }, function(err, doc){
       if (err) return done(err);
-      woot.update({ _id: doc._id }, {
-        $set: { c: 'd' },
-        $push: { e: 'f' }
+      log.once('op', function(op){
+        expect(op.o._id.toHexString).to.be.a('function');
+        expect(op.o.a).to.be('b');
+        expect(op.o.e).to.eql([]);
+
+        woot.update({ _id: doc._id }, {
+          $set: { c: 'd' },
+          $push: { e: 'f' }
+        });
+
+        log.on('op', function(d){
+          expect(d.o).to.eql({
+            $set: {
+              'e.0': 'f',
+              c: 'd'
+            }
+          });
+          log.destroy();
+          done();
+        });
       });
-      log.on('op', function(d){
-        console.log(d.o);
-      });
+
       log.tail();
     });
   });
