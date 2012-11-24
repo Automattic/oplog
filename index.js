@@ -31,11 +31,6 @@ function Oplog(db){
   if ('object' != typeof db) {
     this.db = monk(db || '127.0.0.1:27017/local');
   }
-
-  var qry = { ts: {} };
-  var now = Date.now() / 1000;
-  qry.ts = { $gte: new Timestamp(0, now) };
-  this.qry = qry;
 }
 
 /**
@@ -79,7 +74,19 @@ Oplog.prototype.filter = function(){
 
 Oplog.prototype.tail = function(){
   debug('tailing oplog with %j', this.qry);
+
+  // set ready state
   this.readyState = 'open';
+
+  // set query if first tail
+  if (!this.qry) {
+    var qry = { ts: {} };
+    var now = Date.now() / 1000;
+    qry.ts = { $gte: new Timestamp(0, now) };
+    this.qry = qry;
+  }
+
+  // set query options
   var col = this.db.get('oplog.rs');
   var opt = {
     tailable: true,
@@ -87,6 +94,8 @@ Oplog.prototype.tail = function(){
     timeout: false,
     numberOfRetries: -1
   };
+
+  // query
   var cur = col
   .find(this.qry, opt)
   .each(this.op.bind(this))
