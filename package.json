@@ -1,13 +1,8 @@
 {
   "name": "oplog",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "private": true,
-  "dependencies": {
-    "monk": "0.7.0",
-    "bson": "0.0.6",
-    "wildcard": "0.1.2",
-    "debug": "*"
-  },
+  "dependencies": {},
   "devDependencies": {
     "mocha": "*",
     "expect.js": "*"

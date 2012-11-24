@@ -1,4 +1,12 @@
 
+0.3.0 / 2012-11-24
+==================
+
+  * node_modules: checked in for mongodb 2.2.1+ support
+  * test: added tests for mongodb 2.2.1+
+  * index: fix instrumentation
+  * index: set query timestamp upon `Oplog#tail`
+
 0.2.3 / 2012-11-21
 ==================
 
