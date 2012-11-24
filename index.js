@@ -27,10 +27,11 @@ function Oplog(db){
   if (!(this instanceof Oplog)) return new Oplog(db);
 
   this.flts = [];
-  this.db = db;
-  if ('object' != typeof db) {
-    this.db = monk(db || '127.0.0.1:27017/local');
-  }
+
+  // XXX: we need to ensure the bson parser is the one
+  // overriden by oplog for mongodb 2.2.1 support, therefore
+  // we can't reuse any monk instance
+  this.db = monk(db || '127.0.0.1:27017/local');
 }
 
 /**
