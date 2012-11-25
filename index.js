@@ -31,7 +31,7 @@ function Oplog(db){
   // XXX: we need to ensure the bson parser is the one
   // overriden by oplog for mongodb 2.2.1 support, therefore
   // we can't reuse any monk instance
-  this.db = monk(db || '127.0.0.1:27017/local');
+  this.db = db || monk('127.0.0.1:27017/local');
 }
 
 /**
