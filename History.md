@@ -1,4 +1,9 @@
 
+0.3.2 / 2012-11-25
+==================
+
+  * package: restored dependencies temporarily
+
 0.3.1 / 2012-11-25
 ==================
 
