@@ -54,10 +54,8 @@ describe('oplog', function(){
 
         log.on('op', function(d){
           expect(d.o).to.eql({
-            $set: {
-              'e.0': 'f',
-              c: 'd'
-            }
+            $set: { c: 'd' },
+            $push: { e: 'f' }
           });
           log.destroy();
           done();
