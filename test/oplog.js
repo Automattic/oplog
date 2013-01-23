@@ -91,6 +91,8 @@ describe('oplog', function(){
             // listen second update
             log.once('op', function(op3){
               expect(op3.o.a).to.be('z');
+
+              log.destroy();
               done();
             });
           });
