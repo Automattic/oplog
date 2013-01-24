@@ -4,7 +4,7 @@
  */
 
 var oplog = require('..')
-  , monk = require('monk')
+  , monk = require('monk2')
   , local = monk('localhost:27017/local')
   , woot = monk('localhost:27017/test').get('woot-' + Date.now())
   , col2 = monk('localhost:27017/test').get('col-' + Date.now())
