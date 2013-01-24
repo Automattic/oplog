@@ -66,7 +66,7 @@ describe('oplog', function(){
     });
   });
 
-  it('should emit an op events for multiple updates', function(done){
+  it('should emit an op event for multiple sets', function(done){
     var log = create();
     woot.insert({ a: 'b' }, function(err, doc){
       if (err) return done(err);
@@ -76,26 +76,13 @@ describe('oplog', function(){
         expect(op.o._id.toHexString).to.be.a('function');
         expect(op.o.a).to.be('b');
 
-        woot.update({ _id: doc._id }, { a: 'x' });
-        woot.update({ _id: doc._id }, { a: 'y' });
-        woot.update({ _id: doc._id }, { a: 'z' });
+        woot.update({ _id: doc._id }, { $set: { a: 'x', b: 'y', c: 'z' } });
 
         // listen first update
-        log.once('op', function(op1){
-          expect(op1.o.a).to.be('x');
-
-          // listen first update
-          log.once('op', function(op2){
-            expect(op2.o.a).to.be('y');
-
-            // listen second update
-            log.once('op', function(op3){
-              expect(op3.o.a).to.be('z');
-
-              log.destroy();
-              done();
-            });
-          });
+        log.once('op', function(op){
+          expect(op.o).to.eqlt ({ '$set': { a: 'x', b: 'y', c: 'z' } });
+          log.destroy();
+          done();
         });
       });
 
