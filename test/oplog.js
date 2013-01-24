@@ -48,13 +48,13 @@ describe('oplog', function(){
         expect(op.o.e).to.eql([]);
 
         woot.update({ _id: doc._id }, {
-          $set: { c: 'd' },
+          $set: { a: 'c', c: 'd', x: 'y' },
           $push: { e: 'f' }
         });
 
         log.on('op', function(d){
           expect(d.o).to.eql({
-            $set: { c: 'd' },
+            $set: { a: 'c', c: 'd', x: 'y' },
             $push: { e: 'f' }
           });
           log.destroy();
