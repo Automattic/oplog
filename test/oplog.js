@@ -80,7 +80,7 @@ describe('oplog', function(){
 
         // listen first update
         log.once('op', function(op){
-          expect(op.o).to.eqlt ({ '$set': { a: 'x', b: 'y', c: 'z' } });
+          expect(op.o).to.eql({ '$set': { a: 'x', b: 'y', c: 'z' } });
           log.destroy();
           done();
         });
