@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var monk = require('monk2')
+var monk = require('monk')
   , Filter = require('./filter')
   , Timestamp = require('bson').Timestamp
   , EventEmitter = require('events').EventEmitter
