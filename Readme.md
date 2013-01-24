@@ -73,6 +73,10 @@ oplog.tail();
 
   Shortcut for `.ns('*.{col}')`.
 
+## Compatibiltiy
+
+  oplog must be used with mongodb 2.2.2+
+
 ## Running tests
 
 Make sure to be running a replica set (which can be single-member)
