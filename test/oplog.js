@@ -48,17 +48,39 @@ describe('oplog', function(){
         expect(op.o.e).to.eql([]);
 
         woot.update({ _id: doc._id }, {
-          $set: { c: 'd' },
+          $set: { a: 'c', c: 'd', x: 'y' },
           $push: { e: 'f' }
         });
 
         log.on('op', function(d){
           expect(d.o).to.eql({
-            $set: {
-              'e.0': 'f',
-              c: 'd'
-            }
+            $set: { a: 'c', c: 'd', x: 'y' },
+            $push: { e: 'f' }
           });
+          log.destroy();
+          done();
+        });
+      });
+
+      log.tail();
+    });
+  });
+
+  it('should emit an op event for multiple sets', function(done){
+    var log = create();
+    woot.insert({ a: 'b' }, function(err, doc){
+      if (err) return done(err);
+
+      // listen woot.insert
+      log.once('op', function(op){
+        expect(op.o._id.toHexString).to.be.a('function');
+        expect(op.o.a).to.be('b');
+
+        woot.update({ _id: doc._id }, { $set: { a: 'x', b: 'y', c: 'z' } });
+
+        // listen first update
+        log.once('op', function(op){
+          expect(op.o).to.eql({ '$set': { a: 'x', b: 'y', c: 'z' } });
           log.destroy();
           done();
         });
